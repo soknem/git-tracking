@@ -34,6 +34,7 @@ public class WebhookController {
     }
 
     private void processWebhookPayload(Map<String, Object> payload, String projectName) {
+        g
         String ref = (String) payload.get("ref");
         String branch = ref.replace("refs/heads/", "");
 
