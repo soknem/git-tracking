@@ -9,3 +9,5 @@ spring:
     name: "ISTAD-LMS"
   profiles:
     active: dev
+server:
+  port: 5555
