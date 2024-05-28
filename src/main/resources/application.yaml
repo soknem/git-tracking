@@ -1,0 +1,11 @@
+
+telegram:
+  bot:
+    token: ${TELEGRAM_TOKEN}
+    id: ${TELEGRAM_ID}
+
+spring:
+  application:
+    name: "ISTAD-LMS"
+  profiles:
+    active: dev
