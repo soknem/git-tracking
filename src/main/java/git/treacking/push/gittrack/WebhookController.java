@@ -12,19 +12,24 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/webhook")
+@RequestMapping("api/v1/webhook/lms")
 public class WebhookController {
 
     private final TelegramService telegramService;
 
-    @PostMapping("/springboot")
-    public void handleSpringBootWebhook(@RequestBody Map<String, Object> payload) {
-        processWebhookPayload(payload, "Spring Boot");
+    @PostMapping("/api")
+    public void handleApiWebhook(@RequestBody Map<String, Object> payload) {
+        processWebhookPayload(payload, "API");
     }
 
-    @PostMapping("/nextjs")
-    public void handleNextJsWebhook(@RequestBody Map<String, Object> payload) {
-        processWebhookPayload(payload, "Next.js");
+    @PostMapping("/admin")
+    public void handleAdminWebhook(@RequestBody Map<String, Object> payload) {
+        processWebhookPayload(payload, "ADMIN");
+    }
+
+    @PostMapping("/portal")
+    public void handlePortalWebhook(@RequestBody Map<String, Object> payload) {
+        processWebhookPayload(payload, "PORTAL");
     }
 
 

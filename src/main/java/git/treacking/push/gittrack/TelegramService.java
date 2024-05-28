@@ -6,27 +6,69 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 @Service
 @RequiredArgsConstructor
 public class TelegramService {
 
-    @Value("${telegram.bot.token}")
-    private String botToken;
+    @Value("${telegram.bot.token1}")
+    private String botToken1;
 
-    @Value("${telegram.bot.id}")
-    private String chatId;
+    @Value("${telegram.bot.id1}")
+    private String chatId1;
 
-    private final RestTemplate restTemplate ;
+    @Value("${telegram.bot.token2}")
+    private String botToken2;
+
+    @Value("${telegram.bot.id2}")
+    private String chatId2;
+
+    @Value("${telegram.bot.token3}")
+    private String botToken3;
+
+    @Value("${telegram.bot.id3}")
+    private String chatId3;
+
+    private final RestTemplate restTemplate;
+
     public void sendGitPushInfo(String projectName, String author, String message, String branch, String dateTime) {
+        String botToken;
+        String chatId = switch (projectName) {
+            case "API" -> {
+                botToken = botToken1;
+                yield chatId1;
+            }
+            case "ADMIN" -> {
+                botToken = botToken2;
+                yield chatId2;
+            }
+            case "PORTAL" -> {
+                botToken = botToken3;
+                yield chatId3;
+            }
+            default -> throw new IllegalArgumentException("Unknown project name: " + projectName);
+        };
+
+        // Format dateTime to dd/MM/yyyy HH:mm:ss
+        String formattedDateTime = formatDateTime(dateTime);
+
         String telegramMessage = String.format("""
-            Project: %s
-            Author: %s
-            Message: %s
-            Branch: %s
-            DateTime: %s
-            """, projectName, author, message, branch, dateTime);
+            NEW ACTION..!
+            ________________________________
+            
+            Project  : %s
+            Author   : %s
+            Message  : %s
+            Branch   : %s
+            DateTime : %s
+            ________________________________
+            """, projectName, author, message, branch, formattedDateTime);
 
         String url = String.format("https://api.telegram.org/bot%s/sendMessage", botToken);
+        System.out.println(url);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -38,6 +80,16 @@ public class TelegramService {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Failed to send message to Telegram");
+        }
+    }
+
+    private String formatDateTime(String dateTime) {
+        try {
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            return offsetDateTime.format(formatter);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("Failed to parse date time: " + dateTime, e);
         }
     }
 }

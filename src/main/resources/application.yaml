@@ -1,8 +1,14 @@
 
 telegram:
   bot:
-    token: ${TELEGRAM_TOKEN}
-    id: ${TELEGRAM_ID}
+    token1: ${TELEGRAM_TOKEN1}
+    id1: ${TELEGRAM_ID1}
+
+    token2: ${TELEGRAM_TOKEN2}
+    id2: ${TELEGRAM_ID2}
+
+    token3: ${TELEGRAM_TOKEN3}
+    id3: ${TELEGRAM_ID3}
 
 spring:
   application:
