@@ -1,9 +1,10 @@
 package git.treacking.push.gittrack;
 
+import git.treacking.push.gittrack.TelegramService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,21 +18,20 @@ public class WebhookController {
 
     private final TelegramService telegramService;
 
-    @PostMapping("/api")
-    public void handleApiWebhook(@RequestBody Map<String, Object> payload) {
+    @PostMapping(value = "/api", consumes = "application/json")
+    public void handleApiWebhook(@RequestBody Map<String, Object> payload, @RequestHeader(value = "X-Gitlab-Token", required = false) String token) {
         processWebhookPayload(payload, "API");
     }
 
-    @PostMapping("/admin")
-    public void handleAdminWebhook(@RequestBody Map<String, Object> payload) {
+    @PostMapping(value = "/admin", consumes = "application/json")
+    public void handleAdminWebhook(@RequestBody Map<String, Object> payload, @RequestHeader(value = "X-Gitlab-Token", required = false) String token) {
         processWebhookPayload(payload, "ADMIN");
     }
 
-    @PostMapping("/portal")
-    public void handlePortalWebhook(@RequestBody Map<String, Object> payload) {
+    @PostMapping(value = "/portal", consumes = "application/json")
+    public void handlePortalWebhook(@RequestBody Map<String, Object> payload, @RequestHeader(value = "X-Gitlab-Token", required = false) String token) {
         processWebhookPayload(payload, "PORTAL");
     }
-
 
     private void processWebhookPayload(Map<String, Object> payload, String projectName) {
         String ref = (String) payload.get("ref");

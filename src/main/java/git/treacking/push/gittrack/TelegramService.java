@@ -52,7 +52,7 @@ public class TelegramService {
             default -> throw new IllegalArgumentException("Unknown project name: " + projectName);
         };
 
-        g
+
         // Format dateTime to dd/MM/yyyy HH:mm:ss
         String formattedDateTime = formatDateTime(dateTime);
 
