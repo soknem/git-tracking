@@ -34,6 +34,7 @@ public class TelegramService {
 
     private final RestTemplate restTemplate;
 
+
     public void sendGitPushInfo(String projectName, String author, String message, String branch, String dateTime) {
         String botToken;
         String chatId = switch (projectName) {
