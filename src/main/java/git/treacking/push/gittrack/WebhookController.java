@@ -38,7 +38,6 @@ public class WebhookController {
         String ref = (String) payload.get("ref");
         String branch = ref.replace("refs/heads/", "");
 
-
         List<Map<String, Object>> commits = (List<Map<String, Object>>) payload.get("commits");
 
         for (Map<String, Object> commit : commits) {
