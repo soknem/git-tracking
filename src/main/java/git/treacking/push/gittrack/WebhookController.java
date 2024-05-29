@@ -39,7 +39,7 @@ public class WebhookController {
         String branch = ref.replace("refs/heads/", "");
 
         List<Map<String, Object>> commits = (List<Map<String, Object>>) payload.get("commits");
-        g
+
         for (Map<String, Object> commit : commits) {
             Map<String, String> author = (Map<String, String>) commit.get("author");
             String authorName = author.get("name");
