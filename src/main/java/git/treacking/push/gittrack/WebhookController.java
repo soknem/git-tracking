@@ -40,7 +40,6 @@ public class WebhookController {
 
         List<Map<String, Object>> commits = (List<Map<String, Object>>) payload.get("commits");
 
-
         for (Map<String, Object> commit : commits) {
             Map<String, String> author = (Map<String, String>) commit.get("author");
             String authorName = author.get("name");
